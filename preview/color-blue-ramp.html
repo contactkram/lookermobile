@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<title>Primary Blue</title>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg-canvas); font-family: var(--font-text); }
+  body { padding: 16px; }
+  .row { display: grid; grid-template-columns: repeat(10, 1fr); gap: 0; border-radius: 8px; overflow: hidden; }
+  .sw { aspect-ratio: 1 / 1.05; display: flex; flex-direction: column; justify-content: space-between; padding: 8px 8px 6px; }
+  .sw .step { font-family: var(--font-mono); font-size: 10px; opacity: 0.85; }
+  .sw .hex { font-family: var(--font-mono); font-size: 10px; opacity: 0.85; }
+  .label { font-size: 11px; color: var(--fg-tertiary); margin-top: 10px; display: flex; justify-content: space-between; font-family: var(--font-mono);}
+</style>
+</head>
+<body>
+  <div class="row" id="ramp"></div>
+  <div class="label"><span>Google Blue · primary brand</span><span>50 → 900</span></div>
+<script>
+  const steps = [
+    ['50', '#E8F0FE', '#1A73E8'],
+    ['100','#D2E3FC','#1A73E8'],
+    ['200','#AECBFA','#1A73E8'],
+    ['300','#8AB4F8','#1A73E8'],
+    ['400','#669DF6','#FFFFFF'],
+    ['500','#4285F4','#FFFFFF'],
+    ['600','#1A73E8','#FFFFFF'],
+    ['700','#1967D2','#FFFFFF'],
+    ['800','#185ABC','#FFFFFF'],
+    ['900','#174EA6','#FFFFFF'],
+  ];
+  document.getElementById('ramp').innerHTML = steps.map(([s,h,c])=>`
+    <div class="sw" style="background:${h};color:${c}">
+      <div class="step">${s}</div>
+      <div class="hex">${h}</div>
+    </div>`).join('');
+</script>
+</body>
+</html>

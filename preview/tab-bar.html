@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Rounded" rel="stylesheet">
+<title>iOS tab bar</title>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg-grouped); }
+  body { padding: 14px; font-family: var(--font-text);}
+  .bar { display: flex; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); border: 1px solid var(--hairline); border-radius: 14px; padding: 6px 0 8px;}
+  .tab { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; color: var(--fg-tertiary); font-size: 10px; font-weight: 500; padding: 4px 0;}
+  .tab.active { color: #1A73E8;}
+  .tab .material-symbols-rounded { font-size: 24px; font-variation-settings: 'FILL' 0;}
+  .tab.active .material-symbols-rounded { font-variation-settings: 'FILL' 1;}
+  .lbl { font-family: var(--font-mono); font-size: 10px; color: var(--fg-tertiary); margin-top: 6px;}
+</style>
+</head>
+<body>
+  <div class="bar">
+    <div class="tab active"><span class="material-symbols-rounded">history</span>Recents</div>
+    <div class="tab"><span class="material-symbols-rounded">star</span>Favorites</div>
+    <div class="tab"><span class="material-symbols-rounded">folder</span>Folders</div>
+    <div class="tab"><span class="material-symbols-rounded">bookmarks</span>Boards</div>
+    <div class="tab"><span class="material-symbols-rounded">notifications</span>Alerts</div>
+  </div>
+  <div class="lbl">Bottom tab bar · blur 20 · 49pt + safe area · filled icon = active</div>
+</body>
+</html>

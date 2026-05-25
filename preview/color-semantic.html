@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<title>Semantic colors</title>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg-canvas); font-family: var(--font-text); }
+  body { padding: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .cell { padding: 14px; border-radius: 10px; min-height: 76px; display: flex; flex-direction: column; justify-content: space-between; color: #fff; }
+  .name { font-family: var(--font-brand); font-size: 14px; font-weight: 500; }
+  .hex  { font-family: var(--font-mono); font-size: 11px; opacity: 0.9; }
+  .role { font-size: 11px; opacity: 0.92; }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="cell" style="background:#34A853"><div><div class="name">Success</div><div class="role">positive delta, confirmation</div></div><div class="hex">#34A853</div></div>
+    <div class="cell" style="background:#FBBC04;color:#202124"><div><div class="name">Warning</div><div class="role">attention, threshold</div></div><div class="hex">#FBBC04</div></div>
+    <div class="cell" style="background:#EA4335"><div><div class="name">Danger</div><div class="role">error, negative delta</div></div><div class="hex">#EA4335</div></div>
+    <div class="cell" style="background:#4285F4"><div><div class="name">Info</div><div class="role">link, primary action</div></div><div class="hex">#4285F4</div></div>
+  </div>
+</body>
+</html>

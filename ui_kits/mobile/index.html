@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Looker iOS — UI kit</title>
+
+<!-- Foundations -->
+<link rel="stylesheet" href="../../colors_and_type.css">
+
+<!-- Material Symbols (icon system) - canonical Google Fonts URL -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=block">
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+
+<style>
+  html, body {
+    margin: 0; padding: 0; min-height: 100vh; background: #0E1014;
+    font-family: var(--font-text);
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    display: flex; align-items: flex-start; justify-content: center;
+    padding: 24px; box-sizing: border-box; min-height: 100vh;
+    background:
+      radial-gradient(circle at 20% 20%, #1A1E26 0%, #0E1014 60%),
+      #0E1014;
+  }
+  .wrap {
+    display: flex; gap: 28px; align-items: center;
+    flex-direction: column;
+  }
+  .meta {
+    color: rgba(255,255,255,0.55); font-size: 12px; font-family: var(--font-mono);
+    text-align: center; letter-spacing: 0.04em;
+  }
+  .meta a { color: #8AB4F8; text-decoration: none; }
+  #root { width: 402px; max-width: 100%; }
+  /* Material Symbols base class */
+  .material-symbols-rounded {
+    font-family: 'Material Symbols Rounded';
+    font-weight: normal; font-style: normal;
+    line-height: 1; letter-spacing: normal;
+    text-transform: none; display: inline-block;
+    white-space: nowrap; word-wrap: normal; direction: ltr;
+    -webkit-font-feature-settings: 'liga'; -webkit-font-smoothing: antialiased;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="root"></div>
+    <div class="meta">
+      Looker iOS · UI kit recreation · interactive prototype<br>
+      open <a href="../../README.md">README.md</a> for sources + caveats
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+          integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+          crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+          integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
+          crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+          integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+          crossorigin="anonymous"></script>
+
+  <!-- Device frame -->
+  <script type="text/babel" src="ios-frame.jsx"></script>
+
+  <!-- Looker components & screens -->
+  <script type="text/babel" src="LookerComponents.jsx"></script>
+  <script type="text/babel" src="RecentsScreen.jsx"></script>
+  <script type="text/babel" src="FavoritesScreen.jsx"></script>
+  <script type="text/babel" src="FoldersScreen.jsx"></script>
+  <script type="text/babel" src="BoardsScreen.jsx"></script>
+  <script type="text/babel" src="AlertsScreen.jsx"></script>
+  <script type="text/babel" src="DashboardScreen.jsx"></script>
+  <script type="text/babel" src="LookScreen.jsx"></script>
+  <script type="text/babel" src="LookerApp.jsx"></script>
+
+  <script type="text/babel">
+    function Mount() {
+      const Device = window.IOSDevice;
+      const App = window.LookerApp;
+      if (!Device || !App) {
+        return <div style={{color:'#fff',fontFamily:'monospace',padding:20}}>
+          Loading… Device={String(!!Device)} App={String(!!App)}
+        </div>;
+      }
+      return (
+        <Device width={402} height={874}>
+          <App />
+        </Device>
+      );
+    }
+    // Wait so deferred Babel scripts have registered window.*
+    setTimeout(() => {
+      try {
+        ReactDOM.createRoot(document.getElementById('root')).render(<Mount />);
+      } catch (e) {
+        document.getElementById('root').innerHTML =
+          '<pre style="color:#f88;font-family:monospace">' + e.message + '</pre>';
+        console.error(e);
+      }
+    }, 200);
+  </script>
+</body>
+</html>

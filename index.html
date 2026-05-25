@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Looker Mobile Design System</title>
+<link rel="icon" type="image/svg+xml" href="assets/looker-app-icon.svg">
+<link rel="stylesheet" href="colors_and_type.css">
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=block">
+<style>
+  html, body { margin: 0; padding: 0; background: #0E1014; color: #E8EAED; font-family: var(--font-text); -webkit-font-smoothing: antialiased; min-height: 100vh; }
+  body {
+    background:
+      radial-gradient(900px 600px at 15% -10%, rgba(66,133,244,0.18), transparent 60%),
+      radial-gradient(700px 500px at 100% 10%, rgba(123,97,255,0.10), transparent 60%),
+      #0E1014;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 56px 32px 80px; }
+
+  header { display: flex; align-items: center; gap: 14px; margin-bottom: 80px; }
+  header .icon { width: 44px; height: 44px; border-radius: 11px; }
+  header .word { font-family: var(--font-brand); font-weight: 500; font-size: 22px; color: #fff; letter-spacing: -0.3px; }
+  header .sep  { width: 1px; height: 22px; background: rgba(255,255,255,0.18); }
+  header .sub  { font-family: var(--font-text); font-size: 13px; color: rgba(255,255,255,0.55); }
+  header .gh   { margin-left: auto; font-family: var(--font-text); font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; }
+  header .gh:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+
+  .hero { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: center; margin-bottom: 96px; }
+  @media (max-width: 800px) { .hero { grid-template-columns: 1fr; gap: 48px; } }
+
+  .hero h1 {
+    font-family: var(--font-brand); font-weight: 500; font-size: 56px; line-height: 1.05;
+    letter-spacing: -1.6px; color: #fff; margin: 0 0 24px;
+  }
+  .hero h1 em { font-style: normal; color: #8AB4F8; }
+  .hero p { font-size: 17px; line-height: 1.55; color: rgba(232,234,237,0.72); margin: 0 0 32px; max-width: 520px; }
+
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .cta { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px; font-family: var(--font-brand); font-weight: 500; font-size: 15px; text-decoration: none; transition: all 200ms cubic-bezier(0.2,0,0,1); border: 1px solid transparent; }
+  .cta.primary { background: #4285F4; color: #fff; }
+  .cta.primary:hover { background: #1A73E8; box-shadow: 0 6px 20px rgba(66,133,244,0.4); }
+  .cta.ghost { background: transparent; color: #E8EAED; border-color: rgba(255,255,255,0.22); }
+  .cta.ghost:hover { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); }
+  .cta .material-symbols-rounded { font-size: 18px; }
+
+  /* device preview */
+  .device-shell {
+    position: relative; width: 280px; aspect-ratio: 280 / 580;
+    margin: 0 auto; background: #1B1D21; border-radius: 36px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06);
+    overflow: hidden;
+  }
+  .device-screen {
+    position: absolute; inset: 8px; border-radius: 30px; background: #F8F9FA;
+    overflow: hidden; display: flex; flex-direction: column;
+  }
+  .device-statusbar { height: 28px; display: flex; align-items: center; justify-content: space-between; padding: 0 18px 0 22px; font-family: var(--font-brand); font-weight: 500; font-size: 12px; color: #202124; }
+  .device-statusbar .time { letter-spacing: -0.3px; }
+  .device-statusbar .right { display: flex; gap: 4px; align-items: center; }
+  .device-statusbar .bar { width: 14px; height: 9px; border: 1.2px solid #202124; border-radius: 2px; position: relative; }
+  .device-statusbar .bar::before { content:""; position:absolute; left:1px; top:1px; bottom:1px; width: 70%; background: #202124; border-radius: 1px; }
+
+  .device-titlebar { padding: 10px 14px 4px; font-family: var(--font-brand); font-weight: 500; font-size: 22px; color: #202124; letter-spacing: -0.5px; }
+  .device-list { padding: 4px 12px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .device-card { background: #fff; border: 1px solid rgba(60,64,67,0.12); border-radius: 11px; padding: 9px 11px; display: flex; gap: 9px; align-items: flex-start; }
+  .device-card .ico { width: 22px; height: 22px; border-radius: 6px; background: #D2E3FC; color: #185ABC; display: flex; align-items: center; justify-content: center; flex: 0 0 22px; }
+  .device-card .ico .material-symbols-rounded { font-size: 14px; }
+  .device-card .t { font-family: var(--font-brand); font-weight: 500; font-size: 12px; color: #202124; line-height: 1.25; }
+  .device-card .s { font-family: var(--font-text); font-size: 10px; color: #80868B; margin-top: 1px; }
+  .device-tabs { display: flex; padding: 6px 6px 12px; border-top: 1px solid rgba(60,64,67,0.10); background: rgba(255,255,255,0.85); }
+  .device-tabs .tab { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; font-family: var(--font-text); font-weight: 500; font-size: 8px; color: #80868B; }
+  .device-tabs .tab.active { color: #1A73E8; }
+  .device-tabs .tab .material-symbols-rounded { font-size: 18px; }
+
+  /* card grid */
+  h2.section { font-family: var(--font-brand); font-weight: 500; font-size: 13px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.12em; margin: 0 0 18px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 80px; }
+  .card { display: flex; flex-direction: column; gap: 10px; padding: 22px; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; text-decoration: none; color: inherit; transition: all 200ms cubic-bezier(0.2,0,0,1); }
+  .card:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.22); transform: translateY(-2px); }
+  .card .icon { width: 36px; height: 36px; border-radius: 9px; background: rgba(66,133,244,0.18); color: #8AB4F8; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 6px; }
+  .card .icon .material-symbols-rounded { font-size: 20px; }
+  .card h3 { margin: 0; font-family: var(--font-brand); font-weight: 500; font-size: 17px; color: #fff; }
+  .card p  { margin: 0; font-size: 13px; color: rgba(232,234,237,0.6); line-height: 1.45; }
+  .card .meta { font-family: var(--font-mono); font-size: 11px; color: rgba(232,234,237,0.4); margin-top: 6px; }
+
+  /* footer */
+  footer { padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 16px; flex-wrap: wrap; align-items: center; font-size: 13px; color: rgba(232,234,237,0.5); }
+  footer a { color: rgba(232,234,237,0.7); text-decoration: none; }
+  footer a:hover { color: #fff; }
+  footer .dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,0.25); }
+  .caveat { display: inline-flex; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(251,188,4,0.12); color: #FBBC04; font-family: var(--font-mono); font-size: 11px; margin-bottom: 24px; letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <img class="icon" src="assets/looker-app-icon.svg" alt="Looker">
+    <div class="word">Looker</div>
+    <div class="sep"></div>
+    <div class="sub">Mobile Design System</div>
+    <a class="gh" href="https://github.com/contactkram/lookermobile" target="_blank" rel="noopener">
+      <span class="material-symbols-rounded">code</span> GitHub
+    </a>
+  </header>
+
+  <section class="hero">
+    <div>
+      <div class="caveat">⚠ reconstruction from public docs · see README</div>
+      <h1>A design system for <em>Looker on iOS</em>.</h1>
+      <p>Foundations, tokens, components, and a clickable UI kit prototype — grounded in the Google Cloud brand palette, Material 3 motion, and iOS Human Interface Guidelines.</p>
+      <div class="cta-row">
+        <a class="cta primary" href="ui_kits/mobile/index.html">
+          <span class="material-symbols-rounded">phone_iphone</span>
+          Open the UI kit
+        </a>
+        <a class="cta ghost" href="README.md">
+          <span class="material-symbols-rounded">menu_book</span>
+          Read the docs
+        </a>
+      </div>
+    </div>
+
+    <div class="device-shell">
+      <div class="device-screen">
+        <div class="device-statusbar">
+          <span class="time">9:41</span>
+          <span class="right">
+            <span class="material-symbols-rounded" style="font-size:11px">signal_cellular_alt</span>
+            <span class="material-symbols-rounded" style="font-size:11px">wifi</span>
+            <span class="bar"></span>
+          </span>
+        </div>
+        <div class="device-titlebar">Recently viewed</div>
+        <div class="device-list">
+          <div class="device-card">
+            <div class="ico"><span class="material-symbols-rounded">dashboard</span></div>
+            <div><div class="t">Sales overview — Q4</div><div class="s">Viewed 12 minutes ago</div></div>
+          </div>
+          <div class="device-card">
+            <div class="ico"><span class="material-symbols-rounded">query_stats</span></div>
+            <div><div class="t">Top accounts by ARR</div><div class="s">Viewed 1 hour ago</div></div>
+          </div>
+          <div class="device-card">
+            <div class="ico"><span class="material-symbols-rounded">bookmarks</span></div>
+            <div><div class="t">Exec weekly</div><div class="s">Board · 14 items</div></div>
+          </div>
+          <div class="device-card">
+            <div class="ico"><span class="material-symbols-rounded">dashboard</span></div>
+            <div><div class="t">Pipeline by region</div><div class="s">Viewed yesterday</div></div>
+          </div>
+        </div>
+        <div class="device-tabs">
+          <div class="tab active"><span class="material-symbols-rounded">history</span>Recents</div>
+          <div class="tab"><span class="material-symbols-rounded">star</span>Favorites</div>
+          <div class="tab"><span class="material-symbols-rounded">folder</span>Folders</div>
+          <div class="tab"><span class="material-symbols-rounded">bookmarks</span>Boards</div>
+          <div class="tab"><span class="material-symbols-rounded">notifications</span>Alerts</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <h2 class="section">Foundations</h2>
+  <div class="grid">
+    <a class="card" href="colors_and_type.css">
+      <div class="icon"><span class="material-symbols-rounded">palette</span></div>
+      <h3>Color &amp; type tokens</h3>
+      <p>All CSS custom properties — Google Blue ramp, neutrals, semantic, viz palettes, type scale, spacing, motion.</p>
+      <div class="meta">colors_and_type.css</div>
+    </a>
+    <a class="card" href="README.md#visual-foundations">
+      <div class="icon"><span class="material-symbols-rounded">design_services</span></div>
+      <h3>Visual foundations</h3>
+      <p>Backgrounds, shadows, radii, hover states, transparency rules, layout grid.</p>
+      <div class="meta">README · § Visual Foundations</div>
+    </a>
+    <a class="card" href="README.md#content-fundamentals">
+      <div class="icon"><span class="material-symbols-rounded">edit_note</span></div>
+      <h3>Content fundamentals</h3>
+      <p>Voice, casing, vocabulary, number formatting. Sentence case, second person, no emoji.</p>
+      <div class="meta">README · § Content Fundamentals</div>
+    </a>
+    <a class="card" href="README.md#iconography">
+      <div class="icon"><span class="material-symbols-rounded">interests</span></div>
+      <h3>Iconography</h3>
+      <p>Material Symbols Rounded — Google's open icon set. Weight 400, optical size 24.</p>
+      <div class="meta">README · § Iconography</div>
+    </a>
+  </div>
+
+  <h2 class="section">UI Kit</h2>
+  <div class="grid">
+    <a class="card" href="ui_kits/mobile/index.html">
+      <div class="icon"><span class="material-symbols-rounded">phone_iphone</span></div>
+      <h3>Looker iOS prototype</h3>
+      <p>Interactive 5-tab app: Recents, Favorites, Folders, Boards, Alerts. Open dashboards, favorite, change filters, view the 3-dot menu.</p>
+      <div class="meta">ui_kits/mobile/index.html</div>
+    </a>
+    <a class="card" href="ui_kits/mobile/README.md">
+      <div class="icon"><span class="material-symbols-rounded">view_module</span></div>
+      <h3>Component reference</h3>
+      <p>LkrTopNav, LkrTabBar, LkrContentCard, LkrDashboardTile, LkrKpi, LkrSparkline, LkrChip, LkrSheet, and more.</p>
+      <div class="meta">ui_kits/mobile/README.md</div>
+    </a>
+    <a class="card" href="SKILL.md">
+      <div class="icon"><span class="material-symbols-rounded">terminal</span></div>
+      <h3>SKILL.md</h3>
+      <p>Cross-compatible Agent Skill manifest — drop this folder into Claude Code's <code>~/.claude/skills</code> and invoke <code>looker-mobile-design</code>.</p>
+      <div class="meta">SKILL.md</div>
+    </a>
+  </div>
+
+  <footer>
+    <span>Looker Mobile Design System</span>
+    <span class="dot"></span>
+    <span>Built on Google Cloud brand + Material 3 + iOS HIG</span>
+    <span class="dot"></span>
+    <a href="https://github.com/contactkram/lookermobile" target="_blank" rel="noopener">github.com/contactkram/lookermobile</a>
+  </footer>
+</div>
+</body>
+</html>

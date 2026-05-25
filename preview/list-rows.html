@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Rounded" rel="stylesheet">
+<title>iOS list rows</title>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg-grouped); }
+  body { padding: 14px; font-family: var(--font-text);}
+  .group { background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid var(--hairline);}
+  .row { display: flex; align-items: center; gap: 12px; padding: 0 16px; height: 52px; position: relative;}
+  .row + .row::before { content: ""; position: absolute; left: 52px; right: 0; top: 0; height: 1px; background: var(--hairline); transform: scaleY(0.5);}
+  .icon { width: 28px; height: 28px; border-radius: 6px; background: var(--google-blue-100); color: var(--google-blue-800); display: flex; align-items: center; justify-content: center; flex: 0 0 28px;}
+  .icon .material-symbols-rounded { font-size: 18px;}
+  .text { flex: 1; min-width: 0;}
+  .title { font-size: 15px; color: var(--fg-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+  .sub { font-size: 12px; color: var(--fg-tertiary);}
+  .accessory { color: var(--fg-tertiary);}
+  .accessory .material-symbols-rounded { font-size: 18px;}
+</style>
+</head>
+<body>
+  <div class="group">
+    <div class="row">
+      <div class="icon"><span class="material-symbols-rounded">dashboard</span></div>
+      <div class="text"><div class="title">Sales overview — Q4</div><div class="sub">Viewed 12 minutes ago</div></div>
+      <div class="accessory"><span class="material-symbols-rounded">chevron_right</span></div>
+    </div>
+    <div class="row">
+      <div class="icon"><span class="material-symbols-rounded">query_stats</span></div>
+      <div class="text"><div class="title">Top accounts by ARR</div><div class="sub">Viewed 1 hour ago</div></div>
+      <div class="accessory"><span class="material-symbols-rounded">chevron_right</span></div>
+    </div>
+    <div class="row">
+      <div class="icon"><span class="material-symbols-rounded">bookmarks</span></div>
+      <div class="text"><div class="title">Marketing weekly</div><div class="sub">Board · 14 items</div></div>
+      <div class="accessory"><span class="material-symbols-rounded">chevron_right</span></div>
+    </div>
+    <div class="row">
+      <div class="icon"><span class="material-symbols-rounded">folder</span></div>
+      <div class="text"><div class="title">Shared with my team</div><div class="sub">Folder · 28 items</div></div>
+      <div class="accessory"><span class="material-symbols-rounded">chevron_right</span></div>
+    </div>
+  </div>
+</body>
+</html>

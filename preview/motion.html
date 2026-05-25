@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<title>Motion</title>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg-canvas); }
+  body { padding: 18px; font-family: var(--font-text); display: flex; flex-direction: column; gap: 10px;}
+  .row { display: flex; align-items: center; gap: 12px;}
+  .name { font-family: var(--font-mono); font-size: 11px; color: var(--fg-secondary); width: 92px;}
+  .track { flex: 1; height: 18px; background: var(--grey-100); border-radius: 9px; position: relative; overflow: hidden;}
+  .dot { position: absolute; top: 2px; width: 14px; height: 14px; background: #1A73E8; border-radius: 50%; left: 2px;}
+  .dur { font-family: var(--font-mono); font-size: 11px; color: var(--fg-tertiary); width: 56px; text-align: right;}
+  @keyframes std { 0%, 5% { left: 2px;} 50% { left: calc(100% - 16px);} 95%, 100% { left: 2px;}}
+  .std .dot { animation: std 2.4s cubic-bezier(0.2, 0, 0, 1) infinite;}
+  .acc .dot { animation: std 2.4s cubic-bezier(0.3, 0, 1, 1) infinite;}
+  .dec .dot { animation: std 2.4s cubic-bezier(0, 0, 0, 1) infinite;}
+  .footer { font-family: var(--font-mono); font-size: 10px; color: var(--fg-tertiary); margin-top: 6px;}
+</style>
+</head>
+<body>
+  <div class="row std"><div class="name">standard</div><div class="track"><div class="dot"></div></div><div class="dur">250ms</div></div>
+  <div class="row dec"><div class="name">decelerate</div><div class="track"><div class="dot"></div></div><div class="dur">400ms</div></div>
+  <div class="row acc"><div class="name">accelerate</div><div class="track"><div class="dot"></div></div><div class="dur">150ms</div></div>
+  <div class="footer">Material 3 easing · iOS-style: no bounce, no overshoot</div>
+</body>
+</html>

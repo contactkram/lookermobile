@@ -1,0 +1,281 @@
+/* ============================================================
+   Looker Mobile · Foundations
+   Colors + Type tokens for the Looker iOS experience.
+   Grounded in Google Cloud / Material 3 + iOS HIG conventions.
+   ============================================================ */
+
+/* ---------- 1. TYPEFACES ---------- */
+/* Google Sans is Google's proprietary brand font. It is NOT
+   on Google Fonts. Roboto is the practical substitute (same
+   foundry, similar metrics). For mono we use Roboto Mono. */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&family=Google+Sans+Code:wght@400;500&display=swap');
+
+:root {
+  /* Brand fonts (with iOS system fallbacks) */
+  --font-brand: "Google Sans", "Roboto", -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+  --font-text:  "Google Sans Text", "Roboto", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --font-mono:  "Google Sans Code", "Roboto Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ---------- 2. COLOR — Google / Looker brand ---------- */
+  /* Primary brand blue (Google Blue, used in Looker logo wordmark) */
+  --google-blue-50:  #E8F0FE;
+  --google-blue-100: #D2E3FC;
+  --google-blue-200: #AECBFA;
+  --google-blue-300: #8AB4F8;
+  --google-blue-400: #669DF6;
+  --google-blue-500: #4285F4;   /* canonical Google Blue */
+  --google-blue-600: #1A73E8;   /* Material primary action */
+  --google-blue-700: #1967D2;
+  --google-blue-800: #185ABC;
+  --google-blue-900: #174EA6;
+
+  /* Accent / secondary brand chroma */
+  --google-red-500:    #EA4335;
+  --google-yellow-500: #FBBC04;
+  --google-green-500:  #34A853;
+
+  /* ---------- 3. NEUTRAL RAMP (Google Grey) ---------- */
+  --grey-50:  #F8F9FA;
+  --grey-100: #F1F3F4;
+  --grey-200: #E8EAED;
+  --grey-300: #DADCE0;
+  --grey-400: #BDC1C6;
+  --grey-500: #9AA0A6;
+  --grey-600: #80868B;
+  --grey-700: #5F6368;
+  --grey-800: #3C4043;
+  --grey-900: #202124;
+
+  /* ---------- 4. SEMANTIC SURFACES (light theme — default) ---------- */
+  --bg-canvas:      #FFFFFF;          /* full screens */
+  --bg-grouped:     var(--grey-50);   /* iOS grouped-list background */
+  --bg-card:        #FFFFFF;          /* dashboard tiles, content cards */
+  --bg-elevated:    #FFFFFF;          /* sheets, modals */
+  --bg-overlay:     rgba(32, 33, 36, 0.5);
+  --bg-tint-blue:   var(--google-blue-50);   /* "selected" + highlight */
+  --bg-skeleton:    var(--grey-100);
+
+  /* Foreground / text */
+  --fg-primary:     var(--grey-900);  /* body text, titles */
+  --fg-secondary:   var(--grey-700);  /* metadata */
+  --fg-tertiary:    var(--grey-600);  /* timestamps, captions */
+  --fg-disabled:    var(--grey-400);
+  --fg-on-blue:     #FFFFFF;
+  --fg-link:        var(--google-blue-700);
+  --fg-accent:      var(--google-blue-700);
+
+  /* Status / semantic */
+  --status-success: var(--google-green-500);
+  --status-warning: var(--google-yellow-500);
+  --status-danger:  var(--google-red-500);
+  --status-info:    var(--google-blue-500);
+
+  /* Borders + separators (hairlines, iOS-style) */
+  --hairline:        rgba(60, 64, 67, 0.12);
+  --hairline-strong: rgba(60, 64, 67, 0.24);
+  --border-card:     var(--grey-200);
+
+  /* ---------- 5. DATA-VIZ CATEGORICAL (Looker default palette) ---------- */
+  /* Mirrors Looker's "Looker Classic" categorical collection. */
+  --viz-1: #4285F4;
+  --viz-2: #EA4335;
+  --viz-3: #FBBC04;
+  --viz-4: #34A853;
+  --viz-5: #FF6D01;
+  --viz-6: #46BDC6;
+  --viz-7: #7B61FF;
+  --viz-8: #B31412;
+
+  /* Sequential blue (single-hue ramp, low → high) */
+  --viz-seq-1: #E8F0FE;
+  --viz-seq-2: #AECBFA;
+  --viz-seq-3: #669DF6;
+  --viz-seq-4: #1A73E8;
+  --viz-seq-5: #174EA6;
+
+  /* Diverging red ↔ blue (negative / neutral / positive) */
+  --viz-div-neg-2: #B31412;
+  --viz-div-neg-1: #F28B82;
+  --viz-div-neutral: #F1F3F4;
+  --viz-div-pos-1: #AECBFA;
+  --viz-div-pos-2: #1A73E8;
+
+  /* ---------- 6. ELEVATION (Material 3 mobile) ---------- */
+  --elev-0: none;
+  --elev-1: 0 1px 2px rgba(60,64,67,0.30), 0 1px 3px 1px rgba(60,64,67,0.15);
+  --elev-2: 0 1px 2px rgba(60,64,67,0.30), 0 2px 6px 2px rgba(60,64,67,0.15);
+  --elev-3: 0 4px 8px 3px rgba(60,64,67,0.15), 0 1px 3px rgba(60,64,67,0.30);
+  --elev-4: 0 6px 10px 4px rgba(60,64,67,0.15), 0 2px 3px rgba(60,64,67,0.30);
+  --elev-sticky-header: 0 1px 0 var(--hairline);
+
+  /* ---------- 7. RADII (iOS-leaning) ---------- */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;   /* default card */
+  --radius-lg: 16px;   /* large cards, sheets */
+  --radius-xl: 28px;   /* Material full / FAB */
+  --radius-pill: 999px;
+
+  /* ---------- 8. SPACING (4-pt grid) ---------- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;   /* default screen gutter */
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 32px;
+  --sp-8: 40px;
+  --sp-9: 48px;
+  --sp-10: 64px;
+
+  /* iOS safe-area defaults (390pt iPhone canvas) */
+  --safe-top: 47px;     /* dynamic island row */
+  --safe-bottom: 34px;  /* home indicator */
+  --gutter: var(--sp-4);
+
+  /* ---------- 9. MOTION ---------- */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);       /* Material 3 standard */
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0, 1);
+  --ease-accelerate: cubic-bezier(0.3, 0, 1, 1);
+  --dur-fast:   150ms;
+  --dur-medium: 250ms;
+  --dur-slow:   400ms;
+
+  /* ---------- 10. TYPE SCALE (raw values) ---------- */
+  /* Mirrors Material 3 type scale + iOS large title for headers. */
+  --fs-display: 34px;   /* iOS large title */
+  --fs-h1: 28px;
+  --fs-h2: 22px;
+  --fs-h3: 17px;        /* iOS section header */
+  --fs-body: 16px;
+  --fs-callout: 15px;
+  --fs-sub: 14px;
+  --fs-caption: 12px;
+  --fs-overline: 11px;
+
+  --lh-tight: 1.15;
+  --lh-snug: 1.3;
+  --lh-normal: 1.45;
+  --lh-loose: 1.6;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-overline: 0.08em;
+}
+
+/* ---------- 11. DARK THEME ---------- */
+[data-theme="dark"] {
+  --bg-canvas:    #0F1115;
+  --bg-grouped:   #0B0D11;
+  --bg-card:      #1B1D21;
+  --bg-elevated:  #25272B;
+  --bg-skeleton:  #2A2D31;
+  --bg-tint-blue: rgba(138,180,248,0.16);
+
+  --fg-primary:   #E8EAED;
+  --fg-secondary: #BDC1C6;
+  --fg-tertiary:  #9AA0A6;
+  --fg-disabled:  #5F6368;
+  --fg-link:      #8AB4F8;
+  --fg-accent:    #8AB4F8;
+
+  --hairline:        rgba(232,234,237,0.10);
+  --hairline-strong: rgba(232,234,237,0.20);
+  --border-card:     rgba(232,234,237,0.08);
+}
+
+/* ---------- 12. SEMANTIC TEXT CLASSES ---------- */
+body, .lkr-body {
+  font-family: var(--font-text);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  letter-spacing: var(--tracking-normal);
+  color: var(--fg-primary);
+  background: var(--bg-grouped);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.lkr-display, .lkr-h0 {
+  font-family: var(--font-brand);
+  font-size: var(--fs-display);
+  font-weight: 500;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-primary);
+}
+
+.lkr-h1, h1 {
+  font-family: var(--font-brand);
+  font-size: var(--fs-h1);
+  font-weight: 500;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-primary);
+}
+
+.lkr-h2, h2 {
+  font-family: var(--font-brand);
+  font-size: var(--fs-h2);
+  font-weight: 500;
+  line-height: var(--lh-snug);
+  color: var(--fg-primary);
+}
+
+.lkr-h3, h3 {
+  font-family: var(--font-brand);
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  line-height: var(--lh-snug);
+  color: var(--fg-primary);
+}
+
+.lkr-callout {
+  font-family: var(--font-text);
+  font-size: var(--fs-callout);
+  font-weight: 500;
+  color: var(--fg-primary);
+}
+
+.lkr-sub, .lkr-meta {
+  font-family: var(--font-text);
+  font-size: var(--fs-sub);
+  color: var(--fg-secondary);
+}
+
+.lkr-caption {
+  font-family: var(--font-text);
+  font-size: var(--fs-caption);
+  color: var(--fg-tertiary);
+  line-height: var(--lh-snug);
+}
+
+.lkr-overline {
+  font-family: var(--font-brand);
+  font-size: var(--fs-overline);
+  font-weight: 500;
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+}
+
+.lkr-mono, code, pre {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.lkr-link {
+  color: var(--fg-link);
+  text-decoration: none;
+}
+.lkr-link:active { opacity: 0.6; }
+
+/* Numeric tabular for KPIs */
+.lkr-kpi {
+  font-family: var(--font-brand);
+  font-weight: 500;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  letter-spacing: var(--tracking-tight);
+}

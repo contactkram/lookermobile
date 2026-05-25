@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" width="520" height="120">
+  <rect x="0" y="14" width="92" height="92" rx="22" ry="22" fill="#1A73E8"></rect>
+  <rect x="22" y="40" width="12" height="48" rx="4" fill="#FFFFFF" opacity="0.95"></rect>
+  <rect x="40" y="60" width="12" height="28" rx="4" fill="#FFFFFF" opacity="0.78"></rect>
+  <rect x="58" y="50" width="12" height="38" rx="4" fill="#FFFFFF" opacity="0.86"></rect>
+  <text x="112" y="80" font-family="&#39;Google Sans&#39;,&#39;Roboto&#39;,sans-serif" font-weight="500" font-size="60" fill="#202124" letter-spacing="-1">Looker</text>
+</svg>

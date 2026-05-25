@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<title>Radii</title>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg-canvas); }
+  body { padding: 16px; font-family: var(--font-text); display: flex; align-items: flex-end; gap: 14px; }
+  .tile { width: 76px; height: 76px; background: var(--google-blue-100); border: 1px solid var(--google-blue-300); display: flex; align-items: flex-end; justify-content: center; color: var(--google-blue-800); font-family: var(--font-mono); font-size: 10px; padding-bottom: 6px; }
+  .lbl { font-family: var(--font-mono); font-size: 10px; color: var(--fg-tertiary); margin-top: 6px; text-align: center; }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+</style>
+</head>
+<body>
+  <div class="col"><div class="tile" style="border-radius:4px">4</div><div class="lbl">xs · chip</div></div>
+  <div class="col"><div class="tile" style="border-radius:8px">8</div><div class="lbl">sm · input</div></div>
+  <div class="col"><div class="tile" style="border-radius:12px">12</div><div class="lbl">md · card ★</div></div>
+  <div class="col"><div class="tile" style="border-radius:16px">16</div><div class="lbl">lg · sheet</div></div>
+  <div class="col"><div class="tile" style="border-radius:28px">28</div><div class="lbl">xl · FAB</div></div>
+  <div class="col"><div class="tile" style="border-radius:999px">∞</div><div class="lbl">pill · avatar</div></div>
+</body>
+</html>

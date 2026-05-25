@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local helpers
+node_modules/
+.cache/
+dist/
+
+# Project-local
+screenshots/
+scraps/
+.assets-review-manifest.json

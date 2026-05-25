@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Rounded" rel="stylesheet">
+<title>Top navigation bar</title>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg-grouped); }
+  body { padding: 14px; font-family: var(--font-text);}
+  .frame { background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid var(--hairline);}
+  .nav { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--hairline);}
+  .nav .material-symbols-rounded { font-size: 22px; color: #1A73E8;}
+  .nav .title { font-family: var(--font-brand); font-weight: 500; font-size: 17px; color: var(--fg-primary); flex: 1; text-align: center; margin-right: 30px;}
+  .body { padding: 16px; height: 60px; display: flex; align-items: center; gap: 14px;}
+  .large-title { font-family: var(--font-brand); font-weight: 500; font-size: 28px; letter-spacing: -.5px;}
+  .meta { font-family: var(--font-mono); font-size: 10px; color: var(--fg-tertiary); margin-top: 6px;}
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div class="nav">
+      <span class="material-symbols-rounded">arrow_back</span>
+      <div class="title">Sales overview</div>
+      <span class="material-symbols-rounded" style="color:var(--fg-secondary)">more_vert</span>
+    </div>
+    <div class="body">
+      <div class="large-title">Recently viewed</div>
+    </div>
+  </div>
+  <div class="meta">Compact nav (push view) + large-title intro screen · blur over scroll content</div>
+</body>
+</html>

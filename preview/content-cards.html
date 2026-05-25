@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Rounded" rel="stylesheet">
+<title>Content cards</title>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg-grouped); }
+  body { padding: 14px; font-family: var(--font-text); display: flex; gap: 10px; }
+  .card { background: #fff; border: 1px solid var(--hairline); border-radius: 12px; padding: 12px 14px; flex: 1; display: flex; flex-direction: column; gap: 8px;}
+  .head { display: flex; align-items: center; gap: 8px; color: var(--fg-secondary);}
+  .head .material-symbols-rounded { font-size: 18px; color: #1A73E8;}
+  .title { font-family: var(--font-brand); font-weight: 500; color: var(--fg-primary); font-size: 15px; line-height: 1.3;}
+  .meta { font-size: 11px; color: var(--fg-tertiary);}
+  .thumb { height: 56px; border-radius: 6px; background: linear-gradient(180deg, #E8F0FE 0%, #fff 100%); border: 1px solid var(--hairline); display: flex; align-items: flex-end; gap: 3px; padding: 6px;}
+  .bar { background: #1A73E8; width: 8px; border-radius: 2px;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="head"><span class="material-symbols-rounded">dashboard</span><span class="meta">Dashboard</span></div>
+    <div class="title">Sales overview — Q4</div>
+    <div class="thumb">
+      <div class="bar" style="height:30%"></div><div class="bar" style="height:60%"></div><div class="bar" style="height:45%"></div><div class="bar" style="height:80%"></div><div class="bar" style="height:55%"></div><div class="bar" style="height:90%"></div>
+    </div>
+    <div class="meta">Viewed 12m ago · Hanna Wei</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="material-symbols-rounded">query_stats</span><span class="meta">Look</span></div>
+    <div class="title">Top accounts by ARR</div>
+    <div class="thumb" style="background:#fff;">
+      <svg viewBox="0 0 100 30" preserveAspectRatio="none" style="width:100%;height:100%"><polyline fill="none" stroke="#1A73E8" stroke-width="1.5" points="0,22 14,18 28,12 42,15 56,8 70,5 84,9 100,2"/></svg>
+    </div>
+    <div class="meta">Updated 1h ago</div>
+  </div>
+</body>
+</html>
