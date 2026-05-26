@@ -1,7 +1,7 @@
 // AskScreen.jsx — conversational home screen for Looker mobile.
 // Four layout variations selectable via Tweaks: combined (default), composer, hero, grid.
 
-function AskScreen({ variant = 'combined', accent = '#1A73E8', prefs, onOpenDashboard, onOpenLook, onOpenSettings }) {
+function AskScreen({ variant = 'combined', accent = '#1A73E8', prefs, answerState = 'auto', onOpenDashboard, onOpenLook, onOpenSettings }) {
   const t = window.LKR_TOKENS;
   const [draft, setDraft]   = React.useState('');
   const [thread, setThread] = React.useState(null); // null | {q, busy, result}
@@ -14,7 +14,7 @@ function AskScreen({ variant = 'combined', accent = '#1A73E8', prefs, onOpenDash
     setThread({ q, busy: true });
     setDraft('');
     setTimeout(() => {
-      setThread({ q, busy: false, result: fakeResult(q) });
+      setThread({ q, busy: false, result: fakeResult(q, answerState) });
     }, 1100);
   };
 
@@ -50,8 +50,15 @@ function AskScreen({ variant = 'combined', accent = '#1A73E8', prefs, onOpenDash
 
   // Thread / answer view ─────────────────────────────────────────────────
   if (thread) {
-    return <AskAnswer thread={thread} accent={accent}
+    // Prefer the externalized AskAnswerView (richer states); fall back to legacy.
+    const View = window.AskAnswer || AskAnswerLegacy;
+    return <View thread={thread} accent={accent} prefs={prefs}
       onAsk={(q) => submit(q)} onClose={() => setThread(null)}
+      onOpenSource={(src) => {
+        if (!src) return;
+        if (src.kind === 'look' && onOpenLook) onOpenLook({ id: src.id || src.title, title: src.title });
+        else if (onOpenDashboard) onOpenDashboard({ id: src.id || src.title, title: src.title });
+      }}
       onListen={() => setListening(true)} />;
   }
 
@@ -515,7 +522,9 @@ function ListeningSheet({ onClose, onTranscribed, accent }) {
 }
 
 // ─── Answer view (after submitting) ─────────────────────────────────────────
-function AskAnswer({ thread, accent, onAsk, onClose }) {
+// Legacy inline AskAnswer — kept as a fallback. The richer answer view lives in
+// AskAnswerView.jsx (window.AskAnswer) and is preferred when loaded.
+function AskAnswerLegacy({ thread, accent, onAsk, onClose }) {
   const t = window.LKR_TOKENS;
   return (
     <div style={{ background: t.GREY_50, minHeight: '100%', paddingBottom: 100, display: 'flex', flexDirection: 'column' }}>
@@ -630,43 +639,118 @@ function iconBtn(t) {
 }
 
 // Deterministic fake result so the demo is satisfying ────────────────────────
-function fakeResult(q) {
+function fakeResult(q, answerState = 'auto') {
+  // Forced state from tweaks — overrides keyword matching
+  if (answerState === 'cant_answer') {
+    return {
+      kind: 'cant_answer',
+      suggestions: [
+        { kind: 'dashboard', title: 'Sales overview — Q4', sub: 'Hanna Wei · viewed 12 min ago' },
+        { kind: 'look',      title: 'Top accounts by ARR',  sub: 'Updated 1 hr ago' },
+        { kind: 'dashboard', title: 'Pipeline by region',   sub: 'Aamir Khan · viewed yesterday' },
+      ],
+    };
+  }
+  if (answerState === 'error') {
+    return {
+      kind: 'error',
+      message: "Couldn't reach the Looker API. Check your connection and try again.",
+    };
+  }
+  if (answerState === 'long') {
+    return {
+      kind: 'long',
+      summary:
+        "Revenue this quarter is $1.24M, tracking +12.4% vs last quarter and +8% ahead of target [1]. " +
+        "Growth is concentrated in North America (+18%), driven primarily by enterprise expansion deals from the " +
+        "top 20 accounts. APAC is the fastest grower in percentage terms (+28%) but from a smaller base.",
+      paragraphs: [
+        "EU is flat quarter-over-quarter — the slowdown is mostly in Mid-Market, where deal cycles have lengthened from 38 to 52 days [2]. Enterprise EU is healthy.",
+        "Pipeline coverage for next quarter sits at 2.4×, which is below the 3× threshold the sales team aims for. NA and APAC are above; EU and LATAM are below.",
+      ],
+      chartTitle: "Revenue trend · $K · weekly",
+      chartKind: 'line',
+      labels: ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8'],
+      values: [180, 215, 198, 242, 268, 282, 295, 318],
+      chart2Title: "Pipeline by segment and region · $M",
+      chart2Kind: 'stacked',
+      chart2Labels: ['NA', 'EU', 'APAC', 'LATAM'],
+      series: [
+        { name: 'Enterprise',  values: [4.2, 2.1, 1.6, 0.6] },
+        { name: 'Mid-Market',  values: [2.8, 0.7, 1.0, 0.2] },
+        { name: 'Self-serve',  values: [0.9, 0.4, 0.3, 0.1] },
+      ],
+      sources: [
+        { n: 1, kind: 'dashboard', title: 'Sales overview — Q4',  model: 'ecommerce', id: 'd1' },
+        { n: 2, kind: 'look',      title: 'EU pipeline velocity', model: 'sales',     id: 'l3' },
+      ],
+      followups: ['Drill into NA enterprise', 'Why has EU velocity slowed?', 'Compare to forecast'],
+    };
+  }
+
+  // Keyword-driven defaults
   const ql = q.toLowerCase();
   if (ql.includes('region')) {
     return {
-      summary: "North America leads at $1.24M, up 12.4% vs last quarter. APAC is the fastest grower at +28% but from a smaller base. EU is flat.",
+      kind: 'answer',
+      summary: "North America leads at $1.24M, up 12.4% vs last quarter [1]. APAC is the fastest grower at +28% but from a smaller base. EU is flat [2].",
       chartTitle: "Revenue by region · $K · last quarter",
+      chartKind: 'bar',
       labels: ['NA', 'EU', 'APAC', 'LATAM', 'ME', 'AF'],
       values: [1240, 820, 612, 198, 92, 48],
+      sources: [
+        { n: 1, kind: 'dashboard', title: 'Sales overview — Q4', model: 'ecommerce', id: 'd1' },
+        { n: 2, kind: 'look',      title: 'EU pipeline velocity', model: 'sales',     id: 'l3' },
+      ],
       followups: ['Drill into NA by state', 'Why is EU flat?', 'Share with my team'],
     };
   }
   if (ql.includes('risk') || ql.includes('churn')) {
     return {
-      summary: "8 accounts have churn risk above 60%. Acme Corp ($842K ARR) is the highest-value account in this group, with declining product usage in the last 30 days.",
+      kind: 'answer',
+      summary: "8 accounts have churn risk above 60% [1]. Acme Corp ($842K ARR) is the highest-value account in this group, with declining product usage in the last 30 days [2].",
       chartTitle: "At-risk accounts by ARR · $K",
+      chartKind: 'bar',
       labels: ['Acme', 'Globex', 'Initech', 'Wayne', 'Stark'],
       values: [842, 612, 498, 421, 388],
+      sources: [
+        { n: 1, kind: 'dashboard', title: 'Customer health',     model: 'cs',     id: 'd5' },
+        { n: 2, kind: 'look',      title: 'Acme usage trend',     model: 'product', id: 'l4' },
+      ],
       followups: ['Show Acme usage trend', 'Who owns these accounts?', 'Set up a daily alert'],
     };
   }
   if (ql.includes('pipeline') && ql.includes('q')) {
     return {
-      summary: "Q4 pipeline is $8.92M, down 3.1% from Q3's $9.21M. Coverage ratio is 2.4x against the $3.7M revenue target. Enterprise segment is up; Mid-Market dragged the total.",
+      kind: 'answer',
+      summary: "Q4 pipeline is $8.92M, down 3.1% from Q3's $9.21M [1]. Coverage ratio is 2.4× against the $3.7M revenue target. Enterprise segment is up; Mid-Market dragged the total [2].",
       chartTitle: "Pipeline by quarter · $M",
+      chartKind: 'bar',
       labels: ['Q1', 'Q2', 'Q3', 'Q4'],
       values: [6.8, 7.9, 9.2, 8.9],
+      sources: [
+        { n: 1, kind: 'dashboard', title: 'Pipeline by region', model: 'sales', id: 'd3' },
+        { n: 2, kind: 'look',      title: 'Mid-Market velocity', model: 'sales', id: 'l5' },
+      ],
       followups: ['Break down by segment', 'Compare to forecast', 'Why is Mid-Market down?'],
     };
   }
   return {
-    summary: "Here's what I found across your data. Revenue this quarter is $1.24M, tracking 12.4% above last quarter and 8% ahead of target.",
+    kind: 'answer',
+    summary: "Revenue this quarter is $1.24M, tracking +12.4% vs last quarter and +8% ahead of target [1].",
     chartTitle: "Revenue trend · $K · weekly",
+    chartKind: 'line',
     labels: ['W1', 'W2', 'W3', 'W4', 'W5', 'W6'],
     values: [180, 215, 198, 242, 268, 282],
+    sources: [
+      { n: 1, kind: 'dashboard', title: 'Sales overview — Q4', model: 'ecommerce', id: 'd1' },
+    ],
     followups: ['Compare to target', 'Break down by channel', 'Show me last quarter'],
   };
 }
+
+// Expose Composer so AskAnswerView (loaded separately) can render the sticky bar.
+window.Composer = Composer;
 
 // keyframes
 const _kfAsk = document.createElement('style');

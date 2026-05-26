@@ -48,6 +48,7 @@ function LookerApp({ tweaks, setTweak, prefsBump }) {
   if (tab === 'ask') {
     tabContent = <window.AskScreen
       variant={tweaks.askLayout} accent={tweaks.accent} prefs={prefs}
+      answerState={tweaks.answerState}
       onOpenDashboard={openDashboard} onOpenLook={openLook}
       onOpenSettings={() => push('settings')}
     />;
@@ -184,7 +185,8 @@ function LookerShell() {
   const [tweaks, setTweak] = window.useTweaks(/*EDITMODE-BEGIN*/{
     "askLayout": "combined",
     "accent": "#1A73E8",
-    "showRecentsTab": false
+    "showRecentsTab": false,
+    "answerState": "auto"
   }/*EDITMODE-END*/);
 
   // Bump to force LookerApp to re-read prefs (e.g. after a reset)
@@ -214,6 +216,19 @@ function LookerShell() {
               { label: 'C · Suggestion grid',         value: 'grid' },
             ]}
             onChange={(v) => setTweak('askLayout', v)}
+          />
+        </TweakSection>
+        <TweakSection label="Ask answer">
+          <TweakSelect
+            label="Force answer state"
+            value={tweaks.answerState}
+            options={[
+              { label: 'Auto · keyword-match',  value: 'auto' },
+              { label: 'Long-form (2 charts)',  value: 'long' },
+              { label: "Can't answer",          value: 'cant_answer' },
+              { label: 'Error · offline',       value: 'error' },
+            ]}
+            onChange={(v) => setTweak('answerState', v)}
           />
         </TweakSection>
         <TweakSection label="Brand">
