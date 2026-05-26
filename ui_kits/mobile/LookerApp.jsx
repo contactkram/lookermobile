@@ -1,12 +1,20 @@
 // LookerApp.jsx — top-level state machine wiring screens, sheets, and tabs
-function LookerApp() {
+function LookerApp({ tweaks, setTweak, prefsBump }) {
   const t = window.LKR_TOKENS;
-  const [tab, setTab] = React.useState('recents');
+
+  const [tab, setTab] = React.useState('ask');
   const [stack, setStack] = React.useState([]); // navigation stack on top of tab
   const [favorites, setFavorites] = React.useState(new Set(['d1', 'l1', 'd3']));
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [filtersOpen, setFiltersOpen] = React.useState(false);
   const [currentItem, setCurrentItem] = React.useState(null);
+
+  // Onboarding gate — read from localStorage on mount + when reset bumps
+  const [prefs, setPrefs] = React.useState(() => window.loadLkrPrefs?.());
+  React.useEffect(() => {
+    setPrefs(window.loadLkrPrefs?.());
+  }, [prefsBump]);
+  const onboardingDone = !!prefs;
 
   const toggleFavorite = (id) => {
     setFavorites((s) => {
@@ -25,9 +33,25 @@ function LookerApp() {
   const openDashboard = (item) => push('dashboard', item);
   const openLook      = (item) => push('look', item);
 
+  const tabs = tweaks.showRecentsTab
+    ? [
+        { id: 'ask',       icon: 'auto_awesome',  label: 'Ask'       },
+        { id: 'recents',   icon: 'history',       label: 'Recents'   },
+        { id: 'favorites', icon: 'star',          label: 'Favorites' },
+        { id: 'folders',   icon: 'folder',        label: 'Folders'   },
+        { id: 'boards',    icon: 'bookmarks',     label: 'Boards'    },
+      ]
+    : undefined;
+
   // Tab content
   let tabContent;
-  if (tab === 'recents') {
+  if (tab === 'ask') {
+    tabContent = <window.AskScreen
+      variant={tweaks.askLayout} accent={tweaks.accent} prefs={prefs}
+      onOpenDashboard={openDashboard} onOpenLook={openLook}
+      onOpenSettings={() => push('settings')}
+    />;
+  } else if (tab === 'recents') {
     tabContent = <window.RecentsScreen
       onOpenDashboard={openDashboard} onOpenLook={openLook}
       favorites={favorites} onToggleFavorite={toggleFavorite}
@@ -62,6 +86,15 @@ function LookerApp() {
       favorites={favorites} onToggleFavorite={toggleFavorite}
       onShowMenu={() => setMenuOpen(true)}
     />;
+  } else if (top === 'settings') {
+    pushedContent = <window.SettingsScreen
+      prefs={prefs} accent={tweaks.accent} onBack={pop}
+      onResetPrefs={() => {
+        window.clearLkrPrefs?.();
+        setPrefs(null);
+        pop();
+      }}
+    />;
   }
 
   return (
@@ -78,7 +111,8 @@ function LookerApp() {
       </div>
 
       {/* Bottom tab bar */}
-      <window.LkrTabBar active={tab} onChange={(id) => { setStack([]); setTab(id); }} />
+      <window.LkrTabBar active={tab} tabs={tabs}
+        onChange={(id) => { setStack([]); setTab(id); }} />
 
       {/* Pushed-screen layer (covers everything) */}
       {pushedContent && (
@@ -131,11 +165,96 @@ function LookerApp() {
           </div>
         </div>
       </window.LkrSheet>
+
+      {/* First-run onboarding (covers everything until completed) */}
+      {!onboardingDone && window.Onboarding && (
+        <window.Onboarding
+          accent={tweaks.accent}
+          onComplete={(p) => setPrefs(p)}
+        />
+      )}
     </div>
   );
 }
 
 window.LookerApp = LookerApp;
+
+// Shell that owns Tweaks state and renders the panel as a sibling of the device frame
+function LookerShell() {
+  const [tweaks, setTweak] = window.useTweaks(/*EDITMODE-BEGIN*/{
+    "askLayout": "combined",
+    "accent": "#1A73E8",
+    "showRecentsTab": false
+  }/*EDITMODE-END*/);
+
+  // Bump to force LookerApp to re-read prefs (e.g. after a reset)
+  const [prefsBump, setPrefsBump] = React.useState(0);
+
+  const Device = window.IOSDevice;
+  const {
+    TweaksPanel, TweakSection, TweakSelect,
+    TweakToggle, TweakColor, TweakButton,
+  } = window;
+
+  return (
+    <>
+      <Device width={402} height={874}>
+        <window.LookerApp tweaks={tweaks} setTweak={setTweak} prefsBump={prefsBump} />
+      </Device>
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Home screen">
+          <TweakSelect
+            label="Ask layout"
+            value={tweaks.askLayout}
+            options={[
+              { label: 'Combined (A + B) · default', value: 'combined' },
+              { label: 'A · Composer-first',          value: 'composer' },
+              { label: 'B · Gemini hero',             value: 'hero' },
+              { label: 'C · Suggestion grid',         value: 'grid' },
+            ]}
+            onChange={(v) => setTweak('askLayout', v)}
+          />
+        </TweakSection>
+        <TweakSection label="Brand">
+          <TweakColor
+            label="Accent"
+            value={tweaks.accent}
+            options={['#1A73E8', '#7B61FF', '#0F9D58', '#EA4335', '#202124']}
+            onChange={(v) => setTweak('accent', v)}
+          />
+        </TweakSection>
+        <TweakSection label="Navigation">
+          <TweakToggle
+            label="Keep Recents tab"
+            value={tweaks.showRecentsTab}
+            onChange={(v) => setTweak('showRecentsTab', v)}
+          />
+        </TweakSection>
+        <TweakSection label="Onboarding">
+          {TweakButton ? (
+            <TweakButton onClick={() => {
+              window.clearLkrPrefs?.();
+              setPrefsBump((n) => n + 1);
+            }}>Reset first-run flow</TweakButton>
+          ) : (
+            <button onClick={() => {
+              window.clearLkrPrefs?.();
+              setPrefsBump((n) => n + 1);
+            }} style={{
+              width: '100%', padding: '10px 14px', borderRadius: 8,
+              background: '#F1F3F4', color: '#202124', border: '1px solid #DADCE0',
+              fontFamily: 'Roboto, system-ui', fontSize: 13, fontWeight: 500,
+              cursor: 'pointer',
+            }}>Reset first-run flow</button>
+          )}
+        </TweakSection>
+      </TweaksPanel>
+    </>
+  );
+}
+
+window.LookerShell = LookerShell;
 
 // keyframes
 const _kf2 = document.createElement('style');

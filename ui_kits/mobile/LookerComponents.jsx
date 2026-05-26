@@ -124,9 +124,9 @@ function LkrSearch({ placeholder = 'Search', value = '', onChange = () => {} }) 
 }
 
 // ─── Bottom tab bar ───────────────────────────────────────────────────────────
-function LkrTabBar({ active = 'recents', onChange = () => {} }) {
-  const tabs = [
-    { id: 'recents',   icon: 'history',       label: 'Recents'   },
+function LkrTabBar({ active = 'ask', onChange = () => {}, tabs }) {
+  tabs = tabs || [
+    { id: 'ask',       icon: 'auto_awesome',  label: 'Ask'       },
     { id: 'favorites', icon: 'star',          label: 'Favorites' },
     { id: 'folders',   icon: 'folder',        label: 'Folders'   },
     { id: 'boards',    icon: 'bookmarks',     label: 'Boards'    },
@@ -247,6 +247,7 @@ function LkrChip({ children, selected, onClick, icon, onRemove }) {
       border: `1px solid ${selected ? BLUE_100 : GREY_300}`,
       fontFamily: FONT_TEXT, fontSize: 13, fontWeight: 500,
       cursor: 'pointer', letterSpacing: '-0.05px',
+      whiteSpace: 'nowrap', flex: '0 0 auto',
     }}>
       {icon && <LkrIcon name={icon} size={16} />}
       {children}

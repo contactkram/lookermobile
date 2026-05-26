@@ -67,12 +67,22 @@
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
           integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
           crossorigin="anonymous"></script>
+  <!-- Recharts (depends on prop-types) -->
+  <script src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
+  <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
 
   <!-- Device frame -->
   <script type="text/babel" src="ios-frame.jsx"></script>
 
+  <!-- Tweaks panel -->
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+
   <!-- Looker components & screens -->
   <script type="text/babel" src="LookerComponents.jsx"></script>
+  <script type="text/babel" src="HomeChartTypes.jsx"></script>
+  <script type="text/babel" src="HomeCharts.jsx"></script>
+  <script type="text/babel" src="Onboarding.jsx"></script>
+  <script type="text/babel" src="AskScreen.jsx"></script>
   <script type="text/babel" src="RecentsScreen.jsx"></script>
   <script type="text/babel" src="FavoritesScreen.jsx"></script>
   <script type="text/babel" src="FoldersScreen.jsx"></script>
@@ -80,24 +90,19 @@
   <script type="text/babel" src="AlertsScreen.jsx"></script>
   <script type="text/babel" src="DashboardScreen.jsx"></script>
   <script type="text/babel" src="LookScreen.jsx"></script>
+  <script type="text/babel" src="SettingsScreen.jsx"></script>
   <script type="text/babel" src="LookerApp.jsx"></script>
 
   <script type="text/babel">
     function Mount() {
-      const Device = window.IOSDevice;
-      const App = window.LookerApp;
-      if (!Device || !App) {
+      const Shell = window.LookerShell;
+      if (!Shell) {
         return <div style={{color:'#fff',fontFamily:'monospace',padding:20}}>
-          Loading… Device={String(!!Device)} App={String(!!App)}
+          Loading…
         </div>;
       }
-      return (
-        <Device width={402} height={874}>
-          <App />
-        </Device>
-      );
+      return <Shell />;
     }
-    // Wait so deferred Babel scripts have registered window.*
     setTimeout(() => {
       try {
         ReactDOM.createRoot(document.getElementById('root')).render(<Mount />);
